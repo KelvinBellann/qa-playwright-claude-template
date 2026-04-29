@@ -29,6 +29,7 @@ Este repositório foi desenhado para times que precisam de:
 | `src/ai` | templates e builders de prompt concisos |
 | `config/openapi` | fonte contratual para validação de schema |
 | `config/environments` | parâmetros por ambiente |
+| `CLAUDE.md` + `.claude/` | camada operacional do Claude Code com memória de projeto, regras, comandos, skills, subagentes e hooks |
 
 ## Stack
 
@@ -50,6 +51,27 @@ Este repositório foi desenhado para times que precisam de:
 | Client HTTP mínimo + services | reduz impacto de mudança e deixa os testes legíveis |
 | Page Objects apenas para páginas críticas | evita abstração em excesso |
 | Artefatos só em falha na CI | pipeline mais barato e objetivo |
+| Artefatos do Claude Code versionados | compartilham prompts, regras e padrões operacionais sem poluir a suíte principal |
+
+## Gitflow
+
+Este template agora segue um modelo compatível com Gitflow:
+
+| Branch | Objetivo |
+| --- | --- |
+| `main` | branch estável de release |
+| `develop` | branch de integração contínua |
+| `feature/*` | mudanças isoladas por funcionalidade ou workflow |
+| `release/*` | branch opcional para endurecimento de release |
+| `hotfix/*` | correção urgente em produção |
+
+Fluxo recomendado:
+
+1. criar a branch a partir de `develop`
+2. implementar em `feature/*`
+3. validar as suítes alvo
+4. fazer merge de volta em `develop`
+5. promover `develop` para `main` quando estiver pronto
 
 ## Otimização para Claude
 
@@ -58,6 +80,27 @@ O consumo de tokens foi reduzido de três formas:
 1. Prompts vivem uma vez só em [prompt-templates.ts](./src/ai/prompt-templates.ts) e são montados por [prompt-builder.ts](./src/ai/prompt-builder.ts).
 2. O contexto é ordenado, deduplicado e truncado antes de entrar no prompt.
 3. A arquitetura separa o problema por camadas, então o contexto enviado pode apontar só para a área relevante.
+
+## Camada Claude Code
+
+O repositório inclui uma estrutura de Claude Code em nível de projeto, alinhada ao modelo oficial da Anthropic para memória, regras, skills, subagentes, hooks e MCP.
+
+| Caminho | Objetivo |
+| --- | --- |
+| [CLAUDE.md](./CLAUDE.md) | memória compartilhada do projeto e expectativas operacionais |
+| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | ponto de partida para instruções locais |
+| [.mcp.json](./.mcp.json) | definição MCP do projeto, vazia até o time aprovar servidores compartilhados |
+| [.claude/settings.json](./.claude/settings.json) | permissões e configuração de hooks do projeto |
+| [.claude/rules](./.claude/rules) | instruções modulares carregadas por caminho para reduzir ruído de contexto |
+| [.claude/commands/qa](./.claude/commands/qa) | prompts de slash command para desenho de testes, bug report e regressão |
+| [.claude/skills](./.claude/skills) | playbooks sob demanda para API, segurança e performance |
+| [.claude/agents](./.claude/agents) | subagentes customizados para revisão e implementação |
+| [.claude/hooks](./.claude/hooks) | quality gates automatizados e sync opcional com gestão de testes |
+
+Nota para Windows:
+
+- O estilo `qa:nome-do-comando` foi adaptado aqui para `.claude/commands/qa/*.md`, porque `:` não é válido em nomes de arquivo no Windows.
+- Para configuração local, copie `CLAUDE.local.example.md` para `CLAUDE.local.md` e `.claude/settings.local.example.json` para `.claude/settings.local.json`.
 
 ## Shift-left
 
