@@ -29,6 +29,7 @@ This repository is designed for teams that want:
 | `src/ai` | concise prompt templates and builders |
 | `config/openapi` | contract source for response validation |
 | `config/environments` | environment-specific runtime values |
+| `CLAUDE.md` + `.claude/` | Claude Code operating layer for project memory, rules, commands, skills, subagents, and hooks |
 
 ## Folder structure
 
@@ -75,6 +76,27 @@ This repository is designed for teams that want:
 | Minimal HTTP client + services | keeps tests readable and change impact low |
 | Page objects only for critical pages | avoids abstraction noise |
 | Failure artifacts only on CI failure | keeps pipelines cheap and focused |
+| Claude Code assets are versioned with the repo | gives the team shared prompts, rules, and QA operating standards without inflating main test code |
+
+## Gitflow
+
+This template now follows a Gitflow-friendly branch model:
+
+| Branch | Purpose |
+| --- | --- |
+| `main` | stable release branch |
+| `develop` | integration branch for ongoing work |
+| `feature/*` | isolated feature or workflow changes |
+| `release/*` | optional release hardening branch |
+| `hotfix/*` | urgent production fix branch |
+
+Recommended flow:
+
+1. branch from `develop`
+2. implement on `feature/*`
+3. validate targeted suites
+4. merge back into `develop`
+5. promote `develop` into `main` when ready
 
 ## Claude optimization
 
@@ -83,6 +105,27 @@ Token usage is reduced in three ways:
 1. Prompts are stored once in [prompt-templates.ts](./src/ai/prompt-templates.ts) and reused through [prompt-builder.ts](./src/ai/prompt-builder.ts).
 2. Context is compacted, sorted, deduplicated, and clipped before prompt assembly.
 3. The repository isolates intent by layer, so generated context can point only to the service, page, or test type that matters.
+
+## Claude Code operating layer
+
+The repository includes a project-scoped Claude Code structure based on the official Anthropic model for project memory, rules, skills, subagents, hooks, and MCP.
+
+| Path | Purpose |
+| --- | --- |
+| [CLAUDE.md](./CLAUDE.md) | shared project memory and operating expectations |
+| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | starter for local-only instructions |
+| [.mcp.json](./.mcp.json) | project-scoped MCP definition, intentionally empty until the team approves shared servers |
+| [.claude/settings.json](./.claude/settings.json) | project permissions and hook configuration |
+| [.claude/rules](./.claude/rules) | modular instructions loaded by path to reduce context noise |
+| [.claude/commands/qa](./.claude/commands/qa) | slash-command prompts for test design, bug reporting, and regression decisions |
+| [.claude/skills](./.claude/skills) | on-demand procedural playbooks for API, security, and performance work |
+| [.claude/agents](./.claude/agents) | custom subagents for review and implementation tasks |
+| [.claude/hooks](./.claude/hooks) | automated quality gates and optional test-management sync |
+
+Windows note:
+
+- The inspirational `qa:command-name` naming style from many examples is adapted here as `.claude/commands/qa/*.md`, because `:` is not valid in Windows filenames.
+- For local-only configuration, copy `CLAUDE.local.example.md` to `CLAUDE.local.md` and `.claude/settings.local.example.json` to `.claude/settings.local.json`.
 
 ## Shift-left implementation
 
