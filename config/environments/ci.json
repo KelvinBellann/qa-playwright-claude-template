@@ -1,0 +1,10 @@
+{
+  "baseUrl": "http://127.0.0.1:3200",
+  "timeouts": {
+    "default": 45000,
+    "navigation": 15000
+  },
+  "flags": {
+    "paymentsEnabled": true
+  }
+}

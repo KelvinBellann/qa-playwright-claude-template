@@ -1,0 +1,45 @@
+{
+  "name": "qa-playwright-claude-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lean enterprise QA template optimized for Playwright, Claude-assisted workflows, OpenAPI contracts, and fast deterministic execution.",
+  "scripts": {
+    "mock:start": "cross-env NODE_ENV=development tsx src/utils/mock-server.ts",
+    "mock:start:test": "cross-env NODE_ENV=test TEST_MODE=true tsx src/utils/mock-server.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf playwright-report test-results",
+    "pw:install": "playwright install chromium firefox",
+    "test": "npm run test:all",
+    "test:all": "npm run test:ui && npm run test:api && npm run test:e2e && npm run test:security",
+    "test:ui": "playwright test tests/ui --project=chromium",
+    "test:api": "playwright test tests/api --project=api",
+    "test:e2e": "playwright test tests/e2e --project=chromium",
+    "test:headed": "playwright test tests/ui tests/e2e --project=chromium --headed",
+    "test:debug": "playwright test tests/e2e/critical-payment-journey.e2e.spec.ts --project=chromium --debug",
+    "test:security": "playwright test tests/security --project=security",
+    "test:full": "playwright test",
+    "test:report": "playwright show-report",
+    "perf:smoke": "cross-env PERF_PROFILE=smoke tsx tests/performance/critical-endpoints.perf.ts",
+    "perf:load": "cross-env PERF_PROFILE=load tsx tests/performance/critical-endpoints.perf.ts",
+    "perf:stress": "cross-env PERF_PROFILE=stress tsx tests/performance/critical-endpoints.perf.ts",
+    "test:performance": "npm run perf:smoke",
+    "ci": "npm run clean && npm run typecheck && npm run test:full && npm run perf:smoke"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.2",
+    "cross-env": "^10.1.0",
+    "rimraf": "^6.1.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

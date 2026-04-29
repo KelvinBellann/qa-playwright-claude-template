@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+
+  api-and-security:
+    runs-on: ubuntu-latest
+    needs: typecheck
+    strategy:
+      fail-fast: true
+      matrix:
+        suite: [api, security]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:${{ matrix.suite }}
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.suite }}-artifacts
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  ui-and-e2e:
+    runs-on: ubuntu-latest
+    needs: typecheck
+    strategy:
+      fail-fast: true
+      matrix:
+        suite: [ui, e2e]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:${{ matrix.suite }}
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.suite }}-artifacts
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore

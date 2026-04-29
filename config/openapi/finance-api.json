@@ -1,0 +1,244 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Finance QA Template API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Authenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Authenticated user context",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/summary": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Account summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSummary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Transaction list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Created transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionCreateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginResponse": {
+        "type": "object",
+        "required": ["token", "user"],
+        "properties": {
+          "token": { "type": "string" },
+          "user": {
+            "type": "object",
+            "required": ["id", "email", "role", "displayName"],
+            "properties": {
+              "id": { "type": "string" },
+              "email": { "type": "string" },
+              "role": { "type": "string", "enum": ["manager", "operator"] },
+              "displayName": { "type": "string" }
+            }
+          }
+        }
+      },
+      "MeResponse": {
+        "type": "object",
+        "required": ["user", "flags"],
+        "properties": {
+          "user": {
+            "type": "object",
+            "required": ["id", "email", "role", "displayName"],
+            "properties": {
+              "id": { "type": "string" },
+              "email": { "type": "string" },
+              "role": { "type": "string", "enum": ["manager", "operator"] },
+              "displayName": { "type": "string" }
+            }
+          },
+          "flags": {
+            "type": "object",
+            "required": ["paymentsEnabled"],
+            "properties": {
+              "paymentsEnabled": { "type": "boolean" }
+            }
+          }
+        }
+      },
+      "AccountSummary": {
+        "type": "object",
+        "required": ["accountId", "availableBalance", "currency", "pendingTransactions"],
+        "properties": {
+          "accountId": { "type": "string" },
+          "availableBalance": { "type": "number" },
+          "currency": { "type": "string" },
+          "pendingTransactions": { "type": "number" }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "required": ["id", "beneficiaryAccount", "amount", "currency", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "beneficiaryAccount": { "type": "string" },
+          "amount": { "type": "number" },
+          "currency": { "type": "string" },
+          "status": { "type": "string", "enum": ["approved", "pending"] },
+          "note": { "type": "string" }
+        }
+      },
+      "TransactionList": {
+        "type": "object",
+        "required": ["items"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
+          }
+        }
+      },
+      "TransactionCreateResponse": {
+        "type": "object",
+        "required": ["transaction", "summary"],
+        "properties": {
+          "transaction": {
+            "$ref": "#/components/schemas/Transaction"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AccountSummary"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}
