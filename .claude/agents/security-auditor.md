@@ -16,3 +16,10 @@ Focus on:
 - cases where the repository should block risky automation by default
 
 Do not propose noisy or speculative tests. Prefer concrete, reproducible findings.
+
+Expected output:
+
+- issue summary
+- exact risk category
+- affected file or layer
+- recommended smallest fix or test addition

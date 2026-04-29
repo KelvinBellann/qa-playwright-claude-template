@@ -9,6 +9,7 @@ You are responsible for the automated security baseline.
 
 Checklist:
 
+0. Read `owasp-baseline.md` and `access-control-patterns.md` before editing.
 1. Validate authentication and authorization behavior first.
 2. Check for unsafe input handling, especially injection-like payloads.
 3. Confirm stable security headers on browser-facing routes.

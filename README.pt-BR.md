@@ -93,9 +93,9 @@ O repositório inclui uma estrutura de Claude Code em nível de projeto, alinhad
 | [.claude/settings.json](./.claude/settings.json) | permissões e configuração de hooks do projeto |
 | [.claude/rules](./.claude/rules) | instruções modulares carregadas por caminho para reduzir ruído de contexto |
 | [.claude/commands/qa](./.claude/commands/qa) | prompts de slash command para desenho de testes, bug report e regressão |
-| [.claude/skills](./.claude/skills) | playbooks sob demanda para API, segurança e performance |
+| [.claude/skills](./.claude/skills) | playbooks sob demanda com checklists e patterns para API, segurança e performance |
 | [.claude/agents](./.claude/agents) | subagentes customizados para revisão e implementação |
-| [.claude/hooks](./.claude/hooks) | quality gates automatizados e sync opcional com gestão de testes |
+| [.claude/hooks](./.claude/hooks) | quality gates automatizados, wrappers shell e sync opcional com gestão de testes |
 
 Nota para Windows:
 

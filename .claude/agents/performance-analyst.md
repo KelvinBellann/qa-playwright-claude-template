@@ -15,3 +15,10 @@ Focus on:
 - unnecessary test load or noisy performance checks
 
 Prefer the smallest set of changes that improves signal.
+
+Expected output:
+
+- threshold concern or validation result
+- affected endpoint and profile
+- likely operational impact
+- minimal change recommendation
