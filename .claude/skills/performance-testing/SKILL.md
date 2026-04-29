@@ -9,6 +9,7 @@ You are working on the performance layer.
 
 Rules:
 
+0. Read `thresholds.md` and `load-patterns.md` before changing runner behavior or profiles.
 1. Keep the scope on critical endpoints only.
 2. Prefer deterministic smoke and threshold validation over broad synthetic load.
 3. Keep p95 and error-rate checks easy to understand from the output alone.

@@ -14,3 +14,9 @@ Execution rules:
 - update contracts and docs when behavior changes
 - run the smallest relevant verification command before finishing
 - avoid broad refactors unless they clearly reduce duplication
+
+Expected output:
+
+- changed files
+- intent of the change
+- verification command run

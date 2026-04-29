@@ -118,9 +118,9 @@ The repository includes a project-scoped Claude Code structure based on the offi
 | [.claude/settings.json](./.claude/settings.json) | project permissions and hook configuration |
 | [.claude/rules](./.claude/rules) | modular instructions loaded by path to reduce context noise |
 | [.claude/commands/qa](./.claude/commands/qa) | slash-command prompts for test design, bug reporting, and regression decisions |
-| [.claude/skills](./.claude/skills) | on-demand procedural playbooks for API, security, and performance work |
+| [.claude/skills](./.claude/skills) | on-demand procedural playbooks plus checklists and patterns for API, security, and performance work |
 | [.claude/agents](./.claude/agents) | custom subagents for review and implementation tasks |
-| [.claude/hooks](./.claude/hooks) | automated quality gates and optional test-management sync |
+| [.claude/hooks](./.claude/hooks) | automated quality gates, shell wrappers, and optional test-management sync |
 
 Windows note:
 
