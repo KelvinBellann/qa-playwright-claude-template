@@ -1,11 +1,11 @@
 # Rules
 
-Rules are intentionally small and path-scoped.
+As regras são intencionalmente pequenas e com escopo por caminho.
 
-Use them for:
+Use-as para:
 
-- test design constraints
-- defect language consistency
-- API coverage and contract expectations
+- restrições de design de testes
+- consistência de linguagem de defeitos
+- cobertura de API e expectativas de contrato
 
-Do not turn rules into long process manuals. Deeper procedures belong in `skills/`.
+Não transforme regras em longos manuais de processo. Procedimentos mais aprofundados pertencem a `skills/`.

@@ -1,9 +1,9 @@
-# QA Slash Commands
+# Slash Commands de QA
 
-## Best use of each command
+## Melhor uso de cada command
 
-- `generate-test-cases`: convert feature or diff scope into a compact, layer-aware test set
-- `bug-report`: turn evidence into a reproducible defect report with clear impact
-- `regression-suite`: choose the smallest safe regression pack after a change
+- `generate-test-cases`: converte escopo de feature ou diff em um conjunto de testes compacto e orientado por camada
+- `bug-report`: transforma evidências em um relatório de defeito reproduzível com impacto claro
+- `regression-suite`: escolhe o menor pacote de regressão seguro após uma mudança
 
-These commands should reduce deliberation cost, not replace engineering judgment.
+Esses commands devem reduzir o custo de deliberação, não substituir o julgamento de engenharia.
