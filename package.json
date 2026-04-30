@@ -18,6 +18,8 @@
     "test:headed": "playwright test tests/ui tests/e2e --project=chromium --headed",
     "test:debug": "playwright test tests/e2e/critical-payment-journey.e2e.spec.ts --project=chromium --debug",
     "test:security": "playwright test tests/security --project=security",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
     "test:full": "playwright test",
     "test:report": "playwright show-report",
     "perf:smoke": "cross-env PERF_PROFILE=smoke tsx tests/performance/critical-endpoints.perf.ts",

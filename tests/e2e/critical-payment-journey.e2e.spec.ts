@@ -2,7 +2,7 @@ import { TransactionBuilder } from '../../src/builders/transaction.builder.js';
 import { test, expect } from '../../src/fixtures/test-fixtures.js';
 
 test.describe('e2e/critical-payment-journey', () => {
-  test('completes the lean operator payment journey', async ({ loginPage, operatorCredentials, paymentsPage }) => {
+  test('completes the lean operator payment journey', { tag: ['@smoke', '@critical'] }, async ({ loginPage, operatorCredentials, paymentsPage }) => {
     await loginPage.goto();
     await loginPage.login(operatorCredentials);
     await paymentsPage.waitUntilLoaded();
@@ -21,7 +21,7 @@ test.describe('e2e/critical-payment-journey', () => {
     await expect(paymentsPage.firstTransactionCell(3)).toHaveText('approved');
   });
 
-  test('keeps high-value payments pending without a fixed wait', async ({ loginPage, operatorCredentials, paymentsPage }) => {
+  test('keeps high-value payments pending without a fixed wait', { tag: ['@regression', '@boundary'] }, async ({ loginPage, operatorCredentials, paymentsPage }) => {
     await loginPage.goto();
     await loginPage.login(operatorCredentials);
     await paymentsPage.waitUntilLoaded();

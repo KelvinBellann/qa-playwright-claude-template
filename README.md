@@ -1,86 +1,135 @@
 # qa-playwright-claude-template
 
-Production-ready QA automation template for lean UI, API, E2E, performance, and security coverage with Playwright, OpenAPI contracts, and concise Claude-oriented prompt helpers.
+Production-ready QA automation template combining Playwright, OpenAPI contract validation, lightweight performance checks, and Claude-assisted workflows. Designed for lean, deterministic, and maintainable test suites at scale.
 
 ## Why this repository exists
 
-This repository is designed for teams that want:
+Teams that want to automate quality without accumulating noise need a framework that:
 
-- small and deterministic suites
-- contract-first API validation
-- clean separation between UI, API, E2E, performance, and security
-- prompt reuse with low token consumption
-- a template that can scale without becoming noisy
+- keeps suites small and deterministic
+- validates contracts before they drift
+- separates UI, API, E2E, security, and performance concerns cleanly
+- ships shared QA standards through version-controlled Claude Code assets
+- stays runnable without external infrastructure dependencies
+
+This template provides all of that out of the box, backed by a running mock server so every test works from a fresh clone.
+
+---
 
 ## Architecture
 
-| Area | Responsibility |
-| --- | --- |
-| `tests/ui` | narrow UI validation for critical screens only |
-| `tests/api` | business rules and contract validation |
-| `tests/e2e` | one-pass critical journeys without duplicating lower-level checks |
-| `tests/security` | automated auth and header baseline |
-| `tests/performance` | lightweight threshold checks for critical endpoints |
-| `src/pages` | stable browser abstractions |
-| `src/services` | business-facing API layer |
-| `src/clients` | thin HTTP wrapper |
-| `src/builders` | deterministic test data |
-| `src/fixtures` | reusable Playwright fixtures |
-| `src/ai` | concise prompt templates and builders |
-| `config/openapi` | contract source for response validation |
-| `config/environments` | environment-specific runtime values |
-| `CLAUDE.md` + `.claude/` | Claude Code operating layer for project memory, rules, commands, skills, subagents, and hooks |
-
-## Folder structure
-
-```text
-.
-|-- .github/workflows
-|-- config
-|   |-- environments
-|   |-- openapi
-|   `-- test-config
-|-- src
-|   |-- ai
-|   |-- builders
-|   |-- clients
-|   |-- fixtures
-|   |-- pages
-|   |-- services
-|   `-- utils
-`-- tests
-    |-- api
-    |-- e2e
-    |-- performance
-    |-- security
-    `-- ui
 ```
+tests/
+  ui/           — critical screen validation only
+  api/          — contract + business rule + boundary checks
+  e2e/          — one-pass critical journeys
+  security/     — auth bypass, header baseline, injection detection
+  performance/  — p95 threshold smoke and load checks
+
+src/
+  pages/        — stable browser page objects (data-testid only)
+  services/     — business-facing API layer
+  clients/      — thin HTTP wrapper
+  builders/     — deterministic, fluent test data builders
+  fixtures/     — reusable Playwright fixtures
+  ai/           — concise prompt templates and builder
+  utils/        — mock server, schema validator, logger, feature flags
+
+config/
+  openapi/      — OpenAPI contract source of truth
+  environments/ — runtime environment values
+  test-config/  — defaults, token budgets, env loading
+
+.claude/
+  rules/        — modular QA instructions loaded by path
+  commands/qa/  — slash-command prompts for repeatable QA tasks
+  skills/       — procedural playbooks for API, security, performance
+  agents/       — custom subagents for review and implementation
+  hooks/        — automated quality gates (format + coverage)
+```
+
+---
+
+## Test layer responsibilities
+
+| Layer | What it proves | What it does not repeat |
+| --- | --- | --- |
+| `tests/ui` | Critical screens render and interact correctly | Business rules already covered at API layer |
+| `tests/api` | Contracts, business rules, boundary values, negative paths | UI rendering details |
+| `tests/e2e` | End-to-end critical journey works from UI to data | Every API rule (trusts API suite) |
+| `tests/security` | Auth, token validation, security headers, injection rejection | Business logic |
+| `tests/performance` | p95 thresholds and error rates on critical endpoints | Functional correctness |
+
+---
+
+## Test tagging
+
+Tests are annotated with semantic tags for selective execution:
+
+| Tag | Meaning |
+| --- | --- |
+| `@smoke` | fast pre-deploy gate — run on every push |
+| `@critical` | core business path — must never regress |
+| `@regression` | full regression coverage — run before release |
+| `@boundary` | boundary value and equivalence partition tests |
+| `@contract` | OpenAPI contract shape and status validation |
+| `@security` | auth, token, header, and injection checks |
+
+---
 
 ## Stack
 
-| Type | Tools |
+| Area | Tool |
 | --- | --- |
-| Runtime | Node.js 22, TypeScript |
+| Runtime | Node.js 22, TypeScript (strict, ESM) |
 | Functional automation | Playwright 1.59.1 |
-| Contract validation | OpenAPI + lightweight schema validator |
-| Performance | lightweight Node runner |
-| Mock target | Express |
-| CI | GitHub Actions |
+| Contract validation | OpenAPI JSON + lightweight schema validator |
+| Performance | Node runner with p95 and error rate thresholds |
+| Mock server | Express 5 with in-memory state and security headers |
+| CI | GitHub Actions (parallel jobs, failure-only artifacts) |
+| QA assistant | Claude Code with versioned rules, skills, and subagents |
+
+---
 
 ## Core design decisions
 
 | Decision | Reason |
 | --- | --- |
-| Small mock target inside the repo | keeps the template runnable without external infrastructure |
-| OpenAPI loaded at runtime | enables shift-left contract checks without code generation overhead |
-| Minimal HTTP client + services | keeps tests readable and change impact low |
-| Page objects only for critical pages | avoids abstraction noise |
-| Failure artifacts only on CI failure | keeps pipelines cheap and focused |
-| Claude Code assets are versioned with the repo | gives the team shared prompts, rules, and QA operating standards without inflating main test code |
+| Mock server inside the repo | Runnable from a fresh clone, no external dependencies |
+| OpenAPI loaded at runtime | Shift-left contract checks without code-generation overhead |
+| State reset before every test | Deterministic — no inter-test pollution |
+| Builders over inline data | Readable, reusable, change-resilient |
+| Page objects only for critical pages | Avoids abstraction noise on low-risk screens |
+| Failure artifacts only on CI failure | Cheap pipelines, focused diagnostics |
+| Claude assets versioned with code | Shared prompts, rules, and QA standards for the whole team |
+
+---
+
+## Shift-left implementation
+
+| Capability | Implementation |
+| --- | --- |
+| Contract testing | [contract.service.ts](./src/services/contract.service.ts) validates runtime responses against [finance-api.json](./config/openapi/finance-api.json) |
+| Schema validation | [schema-validator.ts](./src/utils/schema-validator.ts) — recursive property and array validation |
+| Pre-test validation | [preflight.ts](./src/utils/preflight.ts) — checks BASE_URL and OpenAPI file before any test runs |
+| Deterministic data | Builders + `/test/reset` endpoint resets in-memory state before every test |
+| Input validation | Mock server rejects SQL/script injection at the API boundary |
+
+---
+
+## Shift-right implementation
+
+| Capability | Implementation |
+| --- | --- |
+| Structured logging | [logger.ts](./src/utils/logger.ts) — JSON events with level, event name, and duration |
+| Trace on failure only | [playwright.config.ts](./playwright.config.ts) — `retain-on-failure` |
+| Feature flags | [feature-flags.ts](./src/utils/feature-flags.ts) + [environments/](./config/environments/) |
+| Environment-aware execution | [env.ts](./config/test-config/env.ts) — runtime env loading with defaults |
+| Performance thresholds | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) — p95, error rate, 3 profiles |
+
+---
 
 ## Gitflow
-
-This template now follows a Gitflow-friendly branch model:
 
 | Branch | Purpose |
 | --- | --- |
@@ -90,60 +139,40 @@ This template now follows a Gitflow-friendly branch model:
 | `release/*` | optional release hardening branch |
 | `hotfix/*` | urgent production fix branch |
 
-Recommended flow:
+**Recommended flow:**
 
-1. branch from `develop`
-2. implement on `feature/*`
-3. validate targeted suites
-4. merge back into `develop`
-5. promote `develop` into `main` when ready
+```bash
+git checkout develop
+git checkout -b feature/my-change
+# implement + validate targeted suite
+git push origin feature/my-change
+# open PR → develop
+# promote develop → main when ready
+```
 
-## Claude optimization
-
-Token usage is reduced in three ways:
-
-1. Prompts are stored once in [prompt-templates.ts](./src/ai/prompt-templates.ts) and reused through [prompt-builder.ts](./src/ai/prompt-builder.ts).
-2. Context is compacted, sorted, deduplicated, and clipped before prompt assembly.
-3. The repository isolates intent by layer, so generated context can point only to the service, page, or test type that matters.
+---
 
 ## Claude Code operating layer
 
-The repository includes a project-scoped Claude Code structure based on the official Anthropic model for project memory, rules, skills, subagents, hooks, and MCP.
-
 | Path | Purpose |
 | --- | --- |
-| [CLAUDE.md](./CLAUDE.md) | shared project memory and operating expectations |
-| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | starter for local-only instructions |
-| [.mcp.json](./.mcp.json) | project-scoped MCP definition, intentionally empty until the team approves shared servers |
-| [.claude/settings.json](./.claude/settings.json) | project permissions and hook configuration |
-| [.claude/rules](./.claude/rules) | modular instructions loaded by path to reduce context noise |
-| [.claude/commands/qa](./.claude/commands/qa) | slash-command prompts for test design, bug reporting, and regression decisions |
-| [.claude/skills](./.claude/skills) | on-demand procedural playbooks plus checklists and patterns for API, security, and performance work |
-| [.claude/agents](./.claude/agents) | custom subagents for review and implementation tasks |
-| [.claude/hooks](./.claude/hooks) | automated quality gates, shell wrappers, and optional test-management sync |
+| [CLAUDE.md](./CLAUDE.md) | Shared project memory and operating expectations |
+| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | Starter for personal-only instructions |
+| [.mcp.json](./.mcp.json) | Project-scoped MCP definition (intentionally empty until the team approves shared servers) |
+| [.claude/settings.json](./.claude/settings.json) | Project permissions and hook configuration |
+| [.claude/rules/](./.claude/rules/) | Modular instructions loaded by path to reduce context noise |
+| [.claude/commands/qa/](./.claude/commands/qa/) | Slash-command prompts for test design, bug reporting, and regression decisions |
+| [.claude/skills/](./.claude/skills/) | On-demand procedural playbooks for API, security, and performance work |
+| [.claude/agents/](./.claude/agents/) | Custom subagents for review and implementation tasks |
+| [.claude/hooks/](./.claude/hooks/) | Automated quality gates: format validation and coverage checks |
 
-Windows note:
+Claude prompt token usage is reduced in three ways:
 
-- The inspirational `qa:command-name` naming style from many examples is adapted here as `.claude/commands/qa/*.md`, because `:` is not valid in Windows filenames.
-- For local-only configuration, copy `CLAUDE.local.example.md` to `CLAUDE.local.md` and `.claude/settings.local.example.json` to `.claude/settings.local.json`.
+1. Prompts are stored once in [prompt-templates.ts](./src/ai/prompt-templates.ts) and reused through [prompt-builder.ts](./src/ai/prompt-builder.ts).
+2. Context is compacted, sorted, deduplicated, and clipped before assembly.
+3. Rules and skills are loaded only when the path matches, so Claude sees only what matters.
 
-## Shift-left implementation
-
-| Capability | Implementation |
-| --- | --- |
-| Contract testing | [contract.service.ts](./src/services/contract.service.ts) loads [finance-api.json](./config/openapi/finance-api.json) and validates runtime responses |
-| Schema validation | [schema-validator.ts](./src/utils/schema-validator.ts) |
-| Pre-test validation | [preflight.ts](./src/utils/preflight.ts) auto-runs through fixtures |
-| Deterministic data | builders + `/test/reset` state reset before every test |
-
-## Shift-right implementation
-
-| Capability | Implementation |
-| --- | --- |
-| Structured logging | [logger.ts](./src/utils/logger.ts) |
-| Trace on failure only | [playwright.config.ts](./playwright.config.ts) |
-| Feature flags | [feature-flags.ts](./src/utils/feature-flags.ts) + environment config |
-| Environment-aware execution | [env.ts](./config/test-config/env.ts) |
+---
 
 ## Install
 
@@ -152,49 +181,102 @@ npm ci
 npx playwright install chromium firefox
 ```
 
+---
+
 ## Run
 
+### By layer
+
 ```bash
-npm run test:ui
-npm run test:api
-npm run test:e2e
-npm run test:security
-npm run perf:smoke
+npm run test:ui          # critical screen validation
+npm run test:api         # contracts + business rules + boundaries
+npm run test:e2e         # end-to-end critical journey
+npm run test:security    # auth, headers, injection baseline
+npm run perf:smoke       # p95 threshold quick check
 ```
+
+### By tag
+
+```bash
+npm run test:smoke       # @smoke — fast pre-deploy gate across all layers
+npm run test:regression  # @regression — full regression before release
+```
+
+Or pass any tag directly:
+
+```bash
+npx playwright test --grep @boundary
+npx playwright test --grep @contract
+npx playwright test --grep @security
+```
+
+### All at once
+
+```bash
+npm run ci               # clean → typecheck → all tests → perf:smoke
+```
+
+---
 
 ## Key scripts
 
 | Script | Purpose |
 | --- | --- |
 | `npm run test:ui` | UI-only critical validation |
-| `npm run test:api` | API rules + contracts |
-| `npm run test:e2e` | core business journey |
-| `npm run test:security` | baseline security checks |
-| `npm run perf:smoke` | quick response-time threshold run |
-| `npm run perf:load` | higher iteration threshold run |
-| `npm run perf:stress` | upper-bound confidence run |
-| `npm run ci` | local CI-equivalent command |
+| `npm run test:api` | API contracts + rules + boundary values |
+| `npm run test:e2e` | Core business journey |
+| `npm run test:security` | Baseline security checks |
+| `npm run test:smoke` | All `@smoke`-tagged tests across layers |
+| `npm run test:regression` | All `@regression`-tagged tests across layers |
+| `npm run perf:smoke` | Quick p95 threshold run (5–10 iterations) |
+| `npm run perf:load` | Higher-iteration threshold run (20+ iterations) |
+| `npm run perf:stress` | Upper-bound confidence run (30+ iterations) |
+| `npm run ci` | Full local CI-equivalent command |
+
+---
 
 ## CI
 
 Two workflows are included:
 
-- [ci.yml](./.github/workflows/ci.yml): parallel quality jobs with fail-fast strategy and failure-only artifacts
-- [performance.yml](./.github/workflows/performance.yml): on-demand smoke/load/stress execution
+- [ci.yml](./.github/workflows/ci.yml) — parallel quality jobs (typecheck, api+security, ui+e2e) with failure-only artifact upload
+- [performance.yml](./.github/workflows/performance.yml) — on-demand smoke/load/stress execution
 
-## Example coverage
+---
 
-| Layer | Example |
-| --- | --- |
-| UI | [login.ui.spec.ts](./tests/ui/login.ui.spec.ts) |
-| API | [transactions.api.spec.ts](./tests/api/transactions.api.spec.ts) |
-| E2E | [critical-payment-journey.e2e.spec.ts](./tests/e2e/critical-payment-journey.e2e.spec.ts) |
-| Security | [api-security.spec.ts](./tests/security/api-security.spec.ts) |
-| Performance | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) |
+## Test coverage
+
+| Layer | File | Tags |
+| --- | --- | --- |
+| UI | [login.ui.spec.ts](./tests/ui/login.ui.spec.ts) | `@smoke` `@critical` `@regression` |
+| UI | [payments.ui.spec.ts](./tests/ui/payments.ui.spec.ts) | `@smoke` `@critical` `@regression` `@boundary` |
+| API | [transactions.api.spec.ts](./tests/api/transactions.api.spec.ts) | `@smoke` `@critical` `@contract` `@regression` `@security` |
+| API | [auth.api.spec.ts](./tests/api/auth.api.spec.ts) | `@smoke` `@contract` `@regression` `@security` |
+| API | [business-rules.api.spec.ts](./tests/api/business-rules.api.spec.ts) | `@smoke` `@regression` `@boundary` `@contract` |
+| E2E | [critical-payment-journey.e2e.spec.ts](./tests/e2e/critical-payment-journey.e2e.spec.ts) | `@smoke` `@critical` `@regression` `@boundary` |
+| Security | [api-security.spec.ts](./tests/security/api-security.spec.ts) | `@smoke` `@security` `@contract` `@regression` |
+| Performance | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) | — |
+
+---
+
+## Contributing
+
+1. Branch from `develop` using the `feature/*` prefix.
+2. Run the relevant targeted suite before opening a PR:
+   - API change → `npm run test:api`
+   - UI change → `npm run test:ui`
+   - Security-relevant change → `npm run test:security`
+   - Critical path → `npm run test:smoke`
+3. If you change a service, page, builder, or OpenAPI contract, update the corresponding test.
+4. Do not introduce `waitForTimeout`, `.only`, or selector chains tied to layout.
+5. Keep one business intent per test. Boundary cases belong in [business-rules.api.spec.ts](./tests/api/business-rules.api.spec.ts).
+6. For local-only config, copy `CLAUDE.local.example.md` → `CLAUDE.local.md` and `.claude/settings.local.example.json` → `.claude/settings.local.json`. Both are git-ignored.
+
+---
 
 ## Next extensions
 
-- plug a real service under the same contracts
-- swap the mock store for seeded database fixtures
-- add feature-level tags for selective CI execution
-- connect prompt output to a governed review flow
+- Plug a real service under the same OpenAPI contracts by replacing the mock server
+- Swap the mock store for seeded database fixtures for integration-mode runs
+- Connect `prompt-builder.ts` output to a governed AI review flow
+- Add feature-level tags (e.g., `@payments`, `@auth`) for more granular CI filtering
