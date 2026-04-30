@@ -9,7 +9,7 @@ import type {
 import { test, expect } from '../../src/fixtures/test-fixtures.js';
 
 test.describe('api/transactions', () => {
-  test('authenticates and matches the login contract', async ({ authService, contractService, operatorCredentials }) => {
+  test('authenticates and matches the login contract', { tag: ['@smoke', '@contract'] }, async ({ authService, contractService, operatorCredentials }) => {
     const response = await authService.login(operatorCredentials);
 
     expect(response.status).toBe(200);
@@ -22,7 +22,7 @@ test.describe('api/transactions', () => {
     });
   });
 
-  test('creates a payment and keeps balance + list consistent', async ({
+  test('creates a payment and keeps balance + list consistent', { tag: ['@smoke', '@critical', '@contract'] }, async ({
     accountsService,
     contractService,
     operatorSession,
@@ -54,7 +54,7 @@ test.describe('api/transactions', () => {
     expect(listedBody.items[0]?.id).toBe(createdBody.transaction.id);
   });
 
-  test('rejects unsafe input with a stable error contract', async ({ contractService, operatorSession, transactionsService }) => {
+  test('rejects unsafe input with a stable error contract', { tag: ['@regression', '@security', '@contract'] }, async ({ contractService, operatorSession, transactionsService }) => {
     const payload = TransactionBuilder.valid().withNote("invoice'; DROP TABLE transfers;").build();
     const response = await transactionsService.create(operatorSession.token, payload);
 
