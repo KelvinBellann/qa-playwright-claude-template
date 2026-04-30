@@ -1,16 +1,16 @@
-# Claude Code Layout
+# Estrutura do Claude Code
 
-This folder keeps Claude Code behavior modular so the assistant loads only the smallest necessary context.
+Esta pasta mantém o comportamento do Claude Code modular para que o assistente carregue apenas o menor contexto necessário.
 
-## Structure
+## Estrutura
 
-- `settings.json`: shared permissions and hook wiring
-- `rules/`: short path-scoped rules
-- `commands/`: slash-command prompts for repeatable QA tasks
-- `skills/`: deeper workflows with checklists and patterns
-- `agents/`: specialized subagents for review and implementation
-- `hooks/`: lightweight quality gates and test-management sync helpers
+- `settings.json`: permissões compartilhadas e configuração de hooks
+- `rules/`: regras curtas com escopo por caminho
+- `commands/`: prompts de slash commands para tarefas QA repetíveis
+- `skills/`: fluxos de trabalho mais aprofundados com checklists e padrões
+- `agents/`: subagentes especializados para revisão e implementação
+- `hooks/`: gates de qualidade leves e helpers de sincronização com ferramentas de gestão de testes
 
-## Operating principle
+## Princípio de operação
 
-Keep permanent truth in `CLAUDE.md`, scoped rules in `rules/`, reusable workflows in `commands/`, and domain know-how in `skills/`. Avoid putting large static instructions into test files or service code.
+Mantenha verdades permanentes no `CLAUDE.md`, regras com escopo em `rules/`, fluxos reutilizáveis em `commands/`, e know-how de domínio em `skills/`. Evite colocar instruções estáticas longas em arquivos de teste ou código de serviço.

@@ -1,13 +1,13 @@
 # Commands
 
-This repository keeps repeatable QA workflows as slash commands.
+Este repositório mantém fluxos de trabalho QA repetíveis como slash commands.
 
 ## Namespace
 
-Commands live under `qa/` so the intent stays explicit for the team:
+Os commands ficam sob `qa/` para que a intenção fique explícita para o time:
 
 - `/qa:generate-test-cases`
 - `/qa:bug-report`
 - `/qa:regression-suite`
 
-Use commands when the output is mostly a structured decision or artifact, not a code change.
+Use commands quando o resultado é principalmente uma decisão estruturada ou um artefato, não uma mudança de código.

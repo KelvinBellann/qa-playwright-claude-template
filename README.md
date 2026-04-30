@@ -1,180 +1,180 @@
 # qa-playwright-claude-template
 
-Production-ready QA automation template combining Playwright, OpenAPI contract validation, lightweight performance checks, and Claude-assisted workflows. Designed for lean, deterministic, and maintainable test suites at scale.
+Template de automação QA pronto para produção, combinando Playwright, validação de contratos OpenAPI, verificações leves de performance e fluxos de trabalho assistidos pelo Claude. Projetado para suites de testes enxutas, determinísticas e de fácil manutenção em escala.
 
-## Why this repository exists
+## Por que este repositório existe
 
-Teams that want to automate quality without accumulating noise need a framework that:
+Times que querem automatizar qualidade sem acumular ruído precisam de um framework que:
 
-- keeps suites small and deterministic
-- validates contracts before they drift
-- separates UI, API, E2E, security, and performance concerns cleanly
-- ships shared QA standards through version-controlled Claude Code assets
-- stays runnable without external infrastructure dependencies
+- mantém suites pequenas e determinísticas
+- valida contratos antes que eles driftem
+- separa claramente as responsabilidades de UI, API, E2E, segurança e performance
+- distribui padrões compartilhados de QA via assets versionados do Claude Code
+- permanece executável sem dependências de infraestrutura externa
 
-This template provides all of that out of the box, backed by a running mock server so every test works from a fresh clone.
+Este template oferece tudo isso pronto para uso, apoiado por um mock server embutido para que todos os testes funcionem a partir de um clone limpo.
 
 ---
 
-## Architecture
+## Arquitetura
 
 ```
 tests/
-  ui/           — critical screen validation only
-  api/          — contract + business rule + boundary checks
-  e2e/          — one-pass critical journeys
-  security/     — auth bypass, header baseline, injection detection
-  performance/  — p95 threshold smoke and load checks
+  ui/           — validação de telas críticas somente
+  api/          — verificações de contrato + regra de negócio + valores limite
+  e2e/          — jornadas críticas em passagem única
+  security/     — bypass de auth, baseline de headers, detecção de injeção
+  performance/  — verificações de threshold p95 em smoke e load
 
 src/
-  pages/        — stable browser page objects (data-testid only)
-  services/     — business-facing API layer
-  clients/      — thin HTTP wrapper
-  builders/     — deterministic, fluent test data builders
-  fixtures/     — reusable Playwright fixtures
-  ai/           — concise prompt templates and builder
+  pages/        — page objects estáveis (apenas data-testid)
+  services/     — camada de API orientada ao negócio
+  clients/      — wrapper HTTP fino
+  builders/     — builders de dados de teste determinísticos e fluentes
+  fixtures/     — fixtures Playwright reutilizáveis
+  ai/           — templates de prompt e builder conciso
   utils/        — mock server, schema validator, logger, feature flags
 
 config/
-  openapi/      — OpenAPI contract source of truth
-  environments/ — runtime environment values
-  test-config/  — defaults, token budgets, env loading
+  openapi/      — fonte da verdade para contratos OpenAPI
+  environments/ — valores de ambiente em tempo de execução
+  test-config/  — defaults, orçamentos de token, carregamento de env
 
 .claude/
-  rules/        — modular QA instructions loaded by path
-  commands/qa/  — slash-command prompts for repeatable QA tasks
-  skills/       — procedural playbooks for API, security, performance
-  agents/       — custom subagents for review and implementation
-  hooks/        — automated quality gates (format + coverage)
+  rules/        — instruções modulares de QA carregadas por caminho
+  commands/qa/  — prompts de slash commands para tarefas QA repetíveis
+  skills/       — playbooks procedurais para API, segurança e performance
+  agents/       — subagentes customizados para revisão e implementação
+  hooks/        — gates de qualidade automatizados (formato + cobertura)
 ```
 
 ---
 
-## Test layer responsibilities
+## Responsabilidades por camada de teste
 
-| Layer | What it proves | What it does not repeat |
+| Camada | O que prova | O que não repete |
 | --- | --- | --- |
-| `tests/ui` | Critical screens render and interact correctly | Business rules already covered at API layer |
-| `tests/api` | Contracts, business rules, boundary values, negative paths | UI rendering details |
-| `tests/e2e` | End-to-end critical journey works from UI to data | Every API rule (trusts API suite) |
-| `tests/security` | Auth, token validation, security headers, injection rejection | Business logic |
-| `tests/performance` | p95 thresholds and error rates on critical endpoints | Functional correctness |
+| `tests/ui` | Telas críticas renderizam e interagem corretamente | Regras de negócio já cobertas na camada API |
+| `tests/api` | Contratos, regras de negócio, valores limite, caminhos negativos | Detalhes de renderização UI |
+| `tests/e2e` | Jornada crítica end-to-end funciona da UI até os dados | Cada regra de API (confia na suite API) |
+| `tests/security` | Auth, validação de token, headers de segurança, rejeição de injeção | Lógica de negócio |
+| `tests/performance` | Thresholds p95 e taxas de erro em endpoints críticos | Correção funcional |
 
 ---
 
-## Test tagging
+## Sistema de tags
 
-Tests are annotated with semantic tags for selective execution:
+Os testes são anotados com tags semânticas para execução seletiva:
 
-| Tag | Meaning |
+| Tag | Significado |
 | --- | --- |
-| `@smoke` | fast pre-deploy gate — run on every push |
-| `@critical` | core business path — must never regress |
-| `@regression` | full regression coverage — run before release |
-| `@boundary` | boundary value and equivalence partition tests |
-| `@contract` | OpenAPI contract shape and status validation |
-| `@security` | auth, token, header, and injection checks |
+| `@smoke` | gate pré-deploy rápido — executar em cada push |
+| `@critical` | caminho de negócio central — nunca pode regredir |
+| `@regression` | cobertura de regressão completa — executar antes do release |
+| `@boundary` | testes de valor limite e partição de equivalência |
+| `@contract` | validação de shape e status de contrato OpenAPI |
+| `@security` | verificações de auth, token, header e injeção |
 
 ---
 
 ## Stack
 
-| Area | Tool |
+| Área | Ferramenta |
 | --- | --- |
 | Runtime | Node.js 22, TypeScript (strict, ESM) |
-| Functional automation | Playwright 1.59.1 |
-| Contract validation | OpenAPI JSON + lightweight schema validator |
-| Performance | Node runner with p95 and error rate thresholds |
-| Mock server | Express 5 with in-memory state and security headers |
-| CI | GitHub Actions (parallel jobs, failure-only artifacts) |
-| QA assistant | Claude Code with versioned rules, skills, and subagents |
+| Automação funcional | Playwright 1.59.1 |
+| Validação de contrato | OpenAPI JSON + schema validator leve |
+| Performance | Node runner com thresholds de p95 e taxa de erro |
+| Mock server | Express 5 com estado em memória e headers de segurança |
+| CI | GitHub Actions (jobs paralelos, artefatos somente em falha) |
+| Assistente QA | Claude Code com rules, skills e subagentes versionados |
 
 ---
 
-## Core design decisions
+## Decisões de design
 
-| Decision | Reason |
+| Decisão | Razão |
 | --- | --- |
-| Mock server inside the repo | Runnable from a fresh clone, no external dependencies |
-| OpenAPI loaded at runtime | Shift-left contract checks without code-generation overhead |
-| State reset before every test | Deterministic — no inter-test pollution |
-| Builders over inline data | Readable, reusable, change-resilient |
-| Page objects only for critical pages | Avoids abstraction noise on low-risk screens |
-| Failure artifacts only on CI failure | Cheap pipelines, focused diagnostics |
-| Claude assets versioned with code | Shared prompts, rules, and QA standards for the whole team |
+| Mock server dentro do repositório | Executável a partir de um clone limpo, sem dependências externas |
+| OpenAPI carregado em tempo de execução | Verificações de contrato shift-left sem overhead de geração de código |
+| Reset de estado antes de cada teste | Determinístico — sem poluição entre testes |
+| Builders no lugar de dados inline | Legível, reutilizável, resiliente a mudanças |
+| Page objects apenas para páginas críticas | Evita ruído de abstração em telas de baixo risco |
+| Artefatos de falha somente no CI | Pipelines baratos, diagnósticos focados |
+| Assets do Claude versionados com o código | Prompts, rules e padrões de QA compartilhados para todo o time |
 
 ---
 
-## Shift-left implementation
+## Implementação shift-left
 
-| Capability | Implementation |
+| Capacidade | Implementação |
 | --- | --- |
-| Contract testing | [contract.service.ts](./src/services/contract.service.ts) validates runtime responses against [finance-api.json](./config/openapi/finance-api.json) |
-| Schema validation | [schema-validator.ts](./src/utils/schema-validator.ts) — recursive property and array validation |
-| Pre-test validation | [preflight.ts](./src/utils/preflight.ts) — checks BASE_URL and OpenAPI file before any test runs |
-| Deterministic data | Builders + `/test/reset` endpoint resets in-memory state before every test |
-| Input validation | Mock server rejects SQL/script injection at the API boundary |
+| Contract testing | [contract.service.ts](./src/services/contract.service.ts) valida respostas em tempo de execução contra [finance-api.json](./config/openapi/finance-api.json) |
+| Validação de schema | [schema-validator.ts](./src/utils/schema-validator.ts) — validação recursiva de propriedades e arrays |
+| Validação pré-teste | [preflight.ts](./src/utils/preflight.ts) — verifica BASE_URL e arquivo OpenAPI antes de qualquer teste |
+| Dados determinísticos | Builders + endpoint `/test/reset` reseta o estado em memória antes de cada teste |
+| Validação de entrada | Mock server rejeita injeção SQL/script na fronteira da API |
 
 ---
 
-## Shift-right implementation
+## Implementação shift-right
 
-| Capability | Implementation |
+| Capacidade | Implementação |
 | --- | --- |
-| Structured logging | [logger.ts](./src/utils/logger.ts) — JSON events with level, event name, and duration |
-| Trace on failure only | [playwright.config.ts](./playwright.config.ts) — `retain-on-failure` |
+| Logging estruturado | [logger.ts](./src/utils/logger.ts) — eventos JSON com nível, nome do evento e duração |
+| Trace somente em falha | [playwright.config.ts](./playwright.config.ts) — `retain-on-failure` |
 | Feature flags | [feature-flags.ts](./src/utils/feature-flags.ts) + [environments/](./config/environments/) |
-| Environment-aware execution | [env.ts](./config/test-config/env.ts) — runtime env loading with defaults |
-| Performance thresholds | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) — p95, error rate, 3 profiles |
+| Execução por ambiente | [env.ts](./config/test-config/env.ts) — carregamento de env em tempo de execução com defaults |
+| Thresholds de performance | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) — p95, taxa de erro, 3 perfis |
 
 ---
 
 ## Gitflow
 
-| Branch | Purpose |
+| Branch | Propósito |
 | --- | --- |
-| `main` | stable release branch |
-| `develop` | integration branch for ongoing work |
-| `feature/*` | isolated feature or workflow changes |
-| `release/*` | optional release hardening branch |
-| `hotfix/*` | urgent production fix branch |
+| `main` | branch de release estável |
+| `develop` | branch de integração para trabalho em andamento |
+| `feature/*` | mudanças isoladas de feature ou fluxo |
+| `release/*` | branch opcional de endurecimento de release |
+| `hotfix/*` | branch de correção urgente de produção |
 
-**Recommended flow:**
+**Fluxo recomendado:**
 
 ```bash
 git checkout develop
-git checkout -b feature/my-change
-# implement + validate targeted suite
-git push origin feature/my-change
-# open PR → develop
-# promote develop → main when ready
+git checkout -b feature/minha-mudanca
+# implementar + validar suite direcionada
+git push origin feature/minha-mudanca
+# abrir PR → develop
+# promover develop → main quando estiver pronto
 ```
 
 ---
 
-## Claude Code operating layer
+## Camada de operação do Claude Code
 
-| Path | Purpose |
+| Caminho | Propósito |
 | --- | --- |
-| [CLAUDE.md](./CLAUDE.md) | Shared project memory and operating expectations |
-| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | Starter for personal-only instructions |
-| [.mcp.json](./.mcp.json) | Project-scoped MCP definition (intentionally empty until the team approves shared servers) |
-| [.claude/settings.json](./.claude/settings.json) | Project permissions and hook configuration |
-| [.claude/rules/](./.claude/rules/) | Modular instructions loaded by path to reduce context noise |
-| [.claude/commands/qa/](./.claude/commands/qa/) | Slash-command prompts for test design, bug reporting, and regression decisions |
-| [.claude/skills/](./.claude/skills/) | On-demand procedural playbooks for API, security, and performance work |
-| [.claude/agents/](./.claude/agents/) | Custom subagents for review and implementation tasks |
-| [.claude/hooks/](./.claude/hooks/) | Automated quality gates: format validation and coverage checks |
+| [CLAUDE.md](./CLAUDE.md) | Memória compartilhada do projeto e expectativas de operação |
+| [CLAUDE.local.example.md](./CLAUDE.local.example.md) | Modelo para instruções pessoais (git-ignored) |
+| [.mcp.json](./.mcp.json) | Definição MCP com escopo de projeto (intencionalmente vazio até aprovação do time) |
+| [.claude/settings.json](./.claude/settings.json) | Permissões do projeto e configuração de hooks |
+| [.claude/rules/](./.claude/rules/) | Instruções modulares carregadas por caminho para reduzir ruído de contexto |
+| [.claude/commands/qa/](./.claude/commands/qa/) | Prompts de slash commands para design de testes, relatos de bugs e decisões de regressão |
+| [.claude/skills/](./.claude/skills/) | Playbooks procedurais para trabalhos de API, segurança e performance |
+| [.claude/agents/](./.claude/agents/) | Subagentes customizados para tarefas de revisão e implementação |
+| [.claude/hooks/](./.claude/hooks/) | Gates de qualidade automatizados: validação de formato e verificação de cobertura |
 
-Claude prompt token usage is reduced in three ways:
+O uso de tokens dos prompts Claude é reduzido de três formas:
 
-1. Prompts are stored once in [prompt-templates.ts](./src/ai/prompt-templates.ts) and reused through [prompt-builder.ts](./src/ai/prompt-builder.ts).
-2. Context is compacted, sorted, deduplicated, and clipped before assembly.
-3. Rules and skills are loaded only when the path matches, so Claude sees only what matters.
+1. Prompts são armazenados uma vez em [prompt-templates.ts](./src/ai/prompt-templates.ts) e reutilizados via [prompt-builder.ts](./src/ai/prompt-builder.ts).
+2. O contexto é compactado, ordenado, deduplicado e truncado antes da montagem.
+3. Rules e skills são carregados apenas quando o caminho coincide, então o Claude vê somente o que importa.
 
 ---
 
-## Install
+## Instalação
 
 ```bash
 npm ci
@@ -183,26 +183,26 @@ npx playwright install chromium firefox
 
 ---
 
-## Run
+## Execução
 
-### By layer
-
-```bash
-npm run test:ui          # critical screen validation
-npm run test:api         # contracts + business rules + boundaries
-npm run test:e2e         # end-to-end critical journey
-npm run test:security    # auth, headers, injection baseline
-npm run perf:smoke       # p95 threshold quick check
-```
-
-### By tag
+### Por camada
 
 ```bash
-npm run test:smoke       # @smoke — fast pre-deploy gate across all layers
-npm run test:regression  # @regression — full regression before release
+npm run test:ui          # validação de telas críticas
+npm run test:api         # contratos + regras de negócio + valores limite
+npm run test:e2e         # jornada crítica end-to-end
+npm run test:security    # auth, headers, baseline de injeção
+npm run perf:smoke       # verificação rápida de threshold p95
 ```
 
-Or pass any tag directly:
+### Por tag
+
+```bash
+npm run test:smoke       # @smoke — gate pré-deploy rápido entre todas as camadas
+npm run test:regression  # @regression — regressão completa antes do release
+```
+
+Ou passe qualquer tag diretamente:
 
 ```bash
 npx playwright test --grep @boundary
@@ -210,43 +210,43 @@ npx playwright test --grep @contract
 npx playwright test --grep @security
 ```
 
-### All at once
+### Tudo de uma vez
 
 ```bash
-npm run ci               # clean → typecheck → all tests → perf:smoke
+npm run ci               # clean → typecheck → todos os testes → perf:smoke
 ```
 
 ---
 
-## Key scripts
+## Scripts principais
 
-| Script | Purpose |
+| Script | Propósito |
 | --- | --- |
-| `npm run test:ui` | UI-only critical validation |
-| `npm run test:api` | API contracts + rules + boundary values |
-| `npm run test:e2e` | Core business journey |
-| `npm run test:security` | Baseline security checks |
-| `npm run test:smoke` | All `@smoke`-tagged tests across layers |
-| `npm run test:regression` | All `@regression`-tagged tests across layers |
-| `npm run perf:smoke` | Quick p95 threshold run (5–10 iterations) |
-| `npm run perf:load` | Higher-iteration threshold run (20+ iterations) |
-| `npm run perf:stress` | Upper-bound confidence run (30+ iterations) |
-| `npm run ci` | Full local CI-equivalent command |
+| `npm run test:ui` | Validação crítica somente de UI |
+| `npm run test:api` | Contratos de API + regras + valores limite |
+| `npm run test:e2e` | Jornada de negócio central |
+| `npm run test:security` | Verificações de segurança baseline |
+| `npm run test:smoke` | Todos os testes com tag `@smoke` entre camadas |
+| `npm run test:regression` | Todos os testes com tag `@regression` entre camadas |
+| `npm run perf:smoke` | Execução rápida de threshold p95 (5–10 iterações) |
+| `npm run perf:load` | Execução de threshold com mais iterações (20+) |
+| `npm run perf:stress` | Execução de confiança do limite superior (30+) |
+| `npm run ci` | Comando CI local completo equivalente |
 
 ---
 
 ## CI
 
-Two workflows are included:
+Dois workflows estão incluídos:
 
-- [ci.yml](./.github/workflows/ci.yml) — parallel quality jobs (typecheck, api+security, ui+e2e) with failure-only artifact upload
-- [performance.yml](./.github/workflows/performance.yml) — on-demand smoke/load/stress execution
+- [ci.yml](./.github/workflows/ci.yml) — jobs de qualidade paralelos (typecheck, api+security, ui+e2e) com upload de artefatos somente em falha
+- [performance.yml](./.github/workflows/performance.yml) — execução smoke/load/stress sob demanda
 
 ---
 
-## Test coverage
+## Cobertura de testes
 
-| Layer | File | Tags |
+| Camada | Arquivo | Tags |
 | --- | --- | --- |
 | UI | [login.ui.spec.ts](./tests/ui/login.ui.spec.ts) | `@smoke` `@critical` `@regression` |
 | UI | [payments.ui.spec.ts](./tests/ui/payments.ui.spec.ts) | `@smoke` `@critical` `@regression` `@boundary` |
@@ -254,29 +254,29 @@ Two workflows are included:
 | API | [auth.api.spec.ts](./tests/api/auth.api.spec.ts) | `@smoke` `@contract` `@regression` `@security` |
 | API | [business-rules.api.spec.ts](./tests/api/business-rules.api.spec.ts) | `@smoke` `@regression` `@boundary` `@contract` |
 | E2E | [critical-payment-journey.e2e.spec.ts](./tests/e2e/critical-payment-journey.e2e.spec.ts) | `@smoke` `@critical` `@regression` `@boundary` |
-| Security | [api-security.spec.ts](./tests/security/api-security.spec.ts) | `@smoke` `@security` `@contract` `@regression` |
+| Segurança | [api-security.spec.ts](./tests/security/api-security.spec.ts) | `@smoke` `@security` `@contract` `@regression` |
 | Performance | [critical-endpoints.perf.ts](./tests/performance/critical-endpoints.perf.ts) | — |
 
 ---
 
-## Contributing
+## Contribuição
 
-1. Branch from `develop` using the `feature/*` prefix.
-2. Run the relevant targeted suite before opening a PR:
-   - API change → `npm run test:api`
-   - UI change → `npm run test:ui`
-   - Security-relevant change → `npm run test:security`
-   - Critical path → `npm run test:smoke`
-3. If you change a service, page, builder, or OpenAPI contract, update the corresponding test.
-4. Do not introduce `waitForTimeout`, `.only`, or selector chains tied to layout.
-5. Keep one business intent per test. Boundary cases belong in [business-rules.api.spec.ts](./tests/api/business-rules.api.spec.ts).
-6. For local-only config, copy `CLAUDE.local.example.md` → `CLAUDE.local.md` and `.claude/settings.local.example.json` → `.claude/settings.local.json`. Both are git-ignored.
+1. Crie uma branch a partir de `develop` usando o prefixo `feature/*`.
+2. Execute a suite direcionada relevante antes de abrir um PR:
+   - Mudança de API → `npm run test:api`
+   - Mudança de UI → `npm run test:ui`
+   - Mudança relevante para segurança → `npm run test:security`
+   - Caminho crítico → `npm run test:smoke`
+3. Se mudar um serviço, página, builder ou contrato OpenAPI, atualize o teste correspondente.
+4. Não introduza `waitForTimeout`, `.only` ou encadeamentos de seletores atrelados ao layout.
+5. Mantenha uma intenção de negócio por teste. Casos limite pertencem a [business-rules.api.spec.ts](./tests/api/business-rules.api.spec.ts).
+6. Para configuração local, copie `CLAUDE.local.example.md` → `CLAUDE.local.md` e `.claude/settings.local.example.json` → `.claude/settings.local.json`. Ambos são ignorados pelo git.
 
 ---
 
-## Next extensions
+## Próximas extensões
 
-- Plug a real service under the same OpenAPI contracts by replacing the mock server
-- Swap the mock store for seeded database fixtures for integration-mode runs
-- Connect `prompt-builder.ts` output to a governed AI review flow
-- Add feature-level tags (e.g., `@payments`, `@auth`) for more granular CI filtering
+- Conectar um serviço real sob os mesmos contratos OpenAPI substituindo o mock server
+- Substituir o mock store por fixtures de banco de dados semeado para execuções em modo integração
+- Conectar a saída de `prompt-builder.ts` a um fluxo de revisão assistida por IA
+- Adicionar tags de feature (ex.: `@payments`, `@auth`) para filtragem mais granular no CI

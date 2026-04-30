@@ -1,13 +1,13 @@
 # Hooks
 
-Hooks act as lightweight quality gates.
+Os hooks atuam como gates de qualidade leves.
 
-## Current hooks
+## Hooks ativos
 
-- `validate-test-format`: blocks `.only`, fixed waits, and sleep-based anti-patterns in `tests/`
-- `check-coverage`: warns when source behavior changes without any test change
-- `sync-zephyr`: writes a dry-run payload for optional test-management integration
+- `validate-test-format`: bloqueia `.only`, waits fixos e anti-padrões com sleep em `tests/`
+- `check-coverage`: avisa quando o comportamento do código-fonte muda sem nenhuma alteração de teste
+- `sync-zephyr`: escreve um payload dry-run para integração opcional com ferramentas de gestão de testes
 
-## Wrappers
+## Implementação
 
-The executable logic lives in `.mjs` files for portability. Shell wrappers are also included so teams on Unix-style environments can mirror the folder style shown in common Claude Code examples.
+A lógica executável fica em arquivos `.mjs` por portabilidade. Os hooks são invocados diretamente pelo Claude Code conforme configurado em `settings.json`.

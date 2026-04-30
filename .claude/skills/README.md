@@ -1,14 +1,14 @@
 # Skills
 
-Skills store deeper reusable know-how than rules or commands.
+As skills armazenam know-how reutilizável mais aprofundado do que rules ou commands.
 
-## Best use
+## Melhor uso
 
-- use `api-testing` when the work is contract-first and service-oriented
-- use `security-testing` when access control, auth, or unsafe input is in scope
-- use `performance-testing` when endpoint thresholds or smoke performance are changing
+- use `api-testing` quando o trabalho é contract-first e orientado a serviços
+- use `security-testing` quando controle de acesso, auth ou entrada insegura está em escopo
+- use `performance-testing` quando thresholds de endpoint ou performance de smoke estão sendo alterados
 
-Each skill contains:
+Cada skill contém:
 
-- `SKILL.md`: entry instructions
-- supporting notes such as checklists, patterns, and examples
+- `SKILL.md`: instruções de entrada
+- notas de suporte como checklists, padrões e exemplos

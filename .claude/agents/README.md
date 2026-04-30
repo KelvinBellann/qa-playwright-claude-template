@@ -1,11 +1,11 @@
-# Agents
+# Agentes
 
-Use subagents when the task is bounded and the output can be reviewed independently.
+Use subagentes quando a tarefa é delimitada e o resultado pode ser revisado de forma independente.
 
-## Best routing
+## Melhor roteamento
 
-- `security-auditor`: auth, access control, unsafe input, secret exposure
-- `performance-analyst`: thresholds, runner stability, endpoint performance risk
-- `automation-engineer`: implementation in tests, fixtures, services, and page objects
+- `security-auditor`: auth, controle de acesso, entrada insegura, exposição de segredos
+- `performance-analyst`: thresholds, estabilidade do runner, risco de desempenho por endpoint
+- `automation-engineer`: implementação em testes, fixtures, serviços e page objects
 
-Subagents should answer with findings or targeted patches, not broad redesigns.
+Subagentes devem responder com achados ou patches direcionados, não com redesigns amplos.
