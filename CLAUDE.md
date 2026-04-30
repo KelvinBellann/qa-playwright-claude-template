@@ -2,13 +2,46 @@
 
 This repository is a lean QA automation template for Playwright, OpenAPI contract validation, lightweight performance checks, and Claude-assisted workflows.
 
-## Project intent
+## System under test
 
-- Keep tests deterministic, fast, and low-noise.
-- Use UI tests only for critical screen validation.
-- Use API tests for business rules and contract checks.
-- Use E2E tests only for end-to-end journeys that matter.
-- Keep Claude context small. Put always-needed facts here, scoped instructions in `.claude/rules/`, and procedural workflows in `.claude/skills/`.
+The included target application is a minimal finance payment flow used to demonstrate:
+
+- browser login and protected navigation
+- payment creation and balance changes
+- OpenAPI-based contract validation
+- auth and security baseline checks
+- deterministic performance smoke validation
+
+The mock target exists only to make the repository runnable without external infrastructure. Teams can replace it with a real system while preserving the testing architecture.
+
+## QA strategy
+
+- UI proves critical screen behavior only.
+- API proves business rules and contracts first.
+- E2E proves only the business journey that crosses layers.
+- Security proves baseline auth, header, and unsafe-input protection.
+- Performance proves threshold health of critical endpoints, not synthetic bulk load by default.
+
+This repository is intentionally biased toward fast feedback and low maintenance.
+
+## Acceptance criteria
+
+- Relevant targeted suite is executed.
+- Tests remain independent and deterministic.
+- New behavior is covered at the correct layer, not duplicated across all layers.
+- OpenAPI stays aligned with protected endpoint behavior.
+- README and Claude assets are updated when team workflow changes.
+- No secret or machine-specific value is committed.
+
+## Toolchain
+
+- Playwright 1.59.1
+- TypeScript
+- Express mock target
+- OpenAPI runtime schema validation
+- Lightweight Node performance runner
+- GitHub Actions
+- Claude Code project memory, rules, commands, skills, agents, and hooks
 
 ## Repository map
 
@@ -44,23 +77,15 @@ This repository is a lean QA automation template for Playwright, OpenAPI contrac
 - `npm run perf:smoke`
 - `npm run ci`
 
-## Acceptance criteria for changes
+## Claude operating model
 
-- Relevant targeted suite is executed.
-- Tests remain independent and deterministic.
-- New business logic has coverage at the correct layer, not all layers.
-- README and Claude artifacts are updated when workflow or architecture changes.
-- No secret or machine-specific value is committed.
-
-## Claude structure
-
-- Root `CLAUDE.md`: shared project memory
-- `.claude/rules/`: scoped instructions loaded by path
-- `.claude/commands/`: slash command prompts for repeatable QA tasks
-- `.claude/skills/`: procedural workflows loaded on demand
-- `.claude/agents/`: specialized subagents for review and analysis
-- `.claude/hooks/`: automated quality gates and sync helpers
-- `.mcp.json`: project-scoped MCP config, intentionally empty until the team approves shared servers
+- `CLAUDE.md`: project memory and non-negotiable working agreements
+- `.claude/rules/`: small, scoped rules loaded only when path-relevant
+- `.claude/commands/`: repeatable slash-command workflows
+- `.claude/skills/`: deeper playbooks for API, security, and performance work
+- `.claude/agents/`: specialized subagents for targeted review or implementation
+- `.claude/hooks/`: lightweight automated quality gates and sync helpers
+- `.mcp.json`: project-scoped MCP config, intentionally controlled by the team
 
 ## Local-only notes
 

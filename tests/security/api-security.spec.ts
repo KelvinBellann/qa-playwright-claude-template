@@ -3,7 +3,7 @@ import type { ErrorResponse } from '../../src/utils/domain.js';
 import { test, expect } from '../../src/fixtures/test-fixtures.js';
 
 test.describe('security/api-baseline', () => {
-  test('blocks account access without a valid token', async ({ accountsService, contractService }) => {
+  test('blocks account access without a valid token', { tag: ['@smoke', '@security', '@contract'] }, async ({ accountsService, contractService }) => {
     const response = await accountsService.getSummary('invalid-token');
 
     expect(response.status).toBe(401);
@@ -11,14 +11,14 @@ test.describe('security/api-baseline', () => {
     expect((response.body as ErrorResponse).message).toBe('Unauthorized.');
   });
 
-  test('rejects bearer-token bypass on /api/auth/me', async ({ authService, contractService }) => {
+  test('rejects bearer-token bypass on /api/auth/me', { tag: ['@smoke', '@security', '@contract'] }, async ({ authService, contractService }) => {
     const response = await authService.me('forged-token');
 
     expect(response.status).toBe(401);
     contractService.assertResponse('GET', '/api/auth/me', response.status, response.body);
   });
 
-  test('exposes only hardened baseline headers on login', async ({ request }) => {
+  test('exposes only hardened baseline headers on login', { tag: ['@smoke', '@security'] }, async ({ request }) => {
     const response = await request.get('/login');
     const headers = response.headers();
 
@@ -29,7 +29,7 @@ test.describe('security/api-baseline', () => {
     expect(headers['content-security-policy']).toContain("default-src 'self'");
   });
 
-  test('rejects injection-like payloads before business execution', async ({ operatorSession, transactionsService }) => {
+  test('rejects injection-like payloads before business execution', { tag: ['@regression', '@security'] }, async ({ operatorSession, transactionsService }) => {
     const payload = TransactionBuilder.valid().withNote('<script>alert(1)</script>').build();
     const response = await transactionsService.create(operatorSession.token, payload);
 

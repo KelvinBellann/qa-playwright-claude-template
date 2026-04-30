@@ -9,7 +9,7 @@ You are working on the API test layer of this repository.
 
 Follow this sequence:
 
-1. Read `CLAUDE.md`, `.claude/rules/api-testing-rules.md`, and the affected API files.
+1. Read `CLAUDE.md`, `.claude/rules/api-testing-rules.md`, `checklist.md`, `patterns.md`, and the affected API files.
 2. Update or verify the relevant service class under `src/services/` and the contract in `config/openapi/finance-api.json`.
 3. Keep test data small, deterministic, and builder-driven.
 4. Add or update only the targeted API tests needed for the business rule or contract drift.
