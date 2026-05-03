@@ -1,17 +1,17 @@
 ---
 name: performance-testing
-description: Maintain the lightweight performance suite focused on critical endpoints, thresholds, and deterministic smoke validation.
-when_to_use: Use when touching tests/performance, response-time thresholds, or business-critical endpoint flow.
+description: Manter a suite de performance leve focada em endpoints críticos, thresholds e validação determinística de smoke.
+when_to_use: Usar ao tocar tests/performance, thresholds de tempo de resposta ou fluxo de endpoints críticos de negócio.
 allowed-tools: Read Glob Grep Edit MultiEdit Write Bash(npm run perf:smoke) Bash(npm run typecheck)
 ---
 
-You are working on the performance layer.
+Você está trabalhando na camada de performance.
 
-Rules:
+Regras:
 
-0. Read `thresholds.md` and `load-patterns.md` before changing runner behavior or profiles.
-1. Keep the scope on critical endpoints only.
-2. Prefer deterministic smoke and threshold validation over broad synthetic load.
-3. Keep p95 and error-rate checks easy to understand from the output alone.
-4. Reuse existing login and endpoint flow instead of creating new orchestration paths.
-5. Document any threshold change in the README if it changes the operating expectations of the template.
+0. Leia `thresholds.md` e `load-patterns.md` antes de mudar o comportamento do runner ou os perfis.
+1. Mantenha o escopo apenas nos endpoints críticos.
+2. Prefira validação determinística de smoke e threshold a carga sintética ampla.
+3. Mantenha as verificações de p95 e taxa de erro fáceis de entender apenas pela saída.
+4. Reutilize o fluxo de login e de endpoint existente em vez de criar novos caminhos de orquestração.
+5. Documente qualquer mudança de threshold no README se isso alterar as expectativas de operação do template.

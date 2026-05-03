@@ -1,22 +1,22 @@
 ---
-description: Generate lean QA test cases for a feature, story, or changed file set.
+description: Gerar casos de teste QA enxutos para uma feature, história ou conjunto de arquivos alterados.
 disable-model-invocation: true
 argument-hint: "[feature-or-story]"
 allowed-tools: Read Glob Grep Bash(git status *) Bash(git diff --name-only *)
 ---
 
-Design a compact, high-signal test set for: $ARGUMENTS
+Projete um conjunto de testes compacto e de alto sinal para: $ARGUMENTS
 
-Workflow:
+Fluxo de trabalho:
 
-1. Read `CLAUDE.md` and the relevant files.
-2. Apply `.claude/rules/test-design.md` and `.claude/rules/api-testing-rules.md` when applicable.
-3. Avoid duplicate coverage across UI, API, E2E, security, and performance.
-4. Prefer the minimum set that proves the main business risks.
+1. Leia `CLAUDE.md` e os arquivos relevantes.
+2. Aplique `.claude/rules/test-design.md` e `.claude/rules/api-testing-rules.md` quando aplicável.
+3. Evite cobertura duplicada entre UI, API, E2E, segurança e performance.
+4. Prefira o conjunto mínimo que prova os principais riscos de negócio.
 
-Output format:
+Formato de saída:
 
-- Assumptions
-- Risk table with columns: `Risk`, `Layer`, `Why this layer`, `Priority`
-- Final test list with short titles and coverage notes
-- Explicit exclusions to show what is intentionally not being tested
+- Premissas
+- Tabela de riscos com colunas: `Risco`, `Camada`, `Por que esta camada`, `Prioridade`
+- Lista final de testes com títulos curtos e notas de cobertura
+- Exclusões explícitas para mostrar o que intencionalmente não está sendo testado
