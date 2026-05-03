@@ -6,13 +6,13 @@ paths:
   - "src/builders/**/*.ts"
 ---
 
-# Test Design Rules
+# Regras de Design de Testes
 
-- Start with the smallest layer that can prove the behavior.
-- Use boundary value analysis and equivalence partitioning for inputs.
-- Keep one business intent per test.
-- Prefer fixtures and builders over inline data.
-- UI and E2E tests must avoid `waitForTimeout`, `.only`, and selector chains tied to layout.
-- UI tests should prove rendering and interaction only when API coverage would miss the user risk.
-- E2E tests should validate one critical journey without re-proving every contract already covered in API tests.
-- Assertions must focus on outcome, not implementation detail.
+- Começar com a menor camada que consegue provar o comportamento.
+- Usar análise de valor limite e particionamento de equivalência para entradas.
+- Manter uma intenção de negócio por teste.
+- Preferir fixtures e builders a dados inline.
+- Testes de UI e E2E devem evitar `waitForTimeout`, `.only` e encadeamentos de seletores atrelados ao layout.
+- Testes de UI devem provar renderização e interação apenas quando a cobertura de API perderia o risco do usuário.
+- Testes E2E devem validar uma jornada crítica sem re-provar cada contrato já coberto nos testes de API.
+- Asserções devem focar no resultado, não no detalhe de implementação.

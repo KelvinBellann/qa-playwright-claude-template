@@ -1,13 +1,13 @@
-# Performance Threshold Guidance
+# Orientação de Thresholds de Performance
 
-Use thresholds that teams can explain and defend:
+Use thresholds que os times consigam explicar e defender:
 
-- p95 should reflect user-facing responsiveness, not ideal lab speed
-- error rate should stay near zero for smoke checks
-- endpoint choice should map to business-critical actions
+- p95 deve refletir responsividade percebida pelo usuário, não velocidade ideal de laboratório
+- taxa de erro deve permanecer próxima de zero para verificações de smoke
+- escolha de endpoint deve mapear para ações críticas de negócio
 
-Change thresholds only when:
+Altere thresholds apenas quando:
 
-- the system behavior changed intentionally
-- the environment profile changed materially
-- the old threshold created noise without protecting risk
+- o comportamento do sistema mudou intencionalmente
+- o perfil do ambiente mudou materialmente
+- o threshold antigo criava ruído sem proteger risco

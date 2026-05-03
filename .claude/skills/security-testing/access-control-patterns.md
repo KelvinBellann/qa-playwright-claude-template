@@ -1,13 +1,13 @@
-# Access Control Patterns
+# Padrões de Controle de Acesso
 
-## Best applications
+## Melhores aplicações
 
-- prove protected endpoints reject missing and forged tokens
-- prove role or tenant checks at API level before UI level
-- validate that protected pages fail safe when auth context is absent
+- provar que endpoints protegidos rejeitam tokens ausentes e forjados
+- provar verificações de role ou tenant em nível de API antes do nível de UI
+- validar que páginas protegidas falham de forma segura quando o contexto de auth está ausente
 
-## Common misses
+## Erros comuns
 
-- asserting only UI redirect without checking backend protection
-- treating 401 and 403 interchangeably without intent
-- missing negative-path contract validation for error responses
+- assegurar apenas redirecionamento de UI sem verificar proteção no backend
+- tratar 401 e 403 como intercambiáveis sem intenção clara
+- deixar de validar contratos de caminho negativo para respostas de erro

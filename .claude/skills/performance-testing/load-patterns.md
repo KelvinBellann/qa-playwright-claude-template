@@ -1,13 +1,13 @@
-# Load Patterns
+# Padrões de Carga
 
-## Best applications
+## Melhores aplicações
 
-- `smoke`: default developer and CI validation
-- `load`: broaden confidence before merge or release
-- `stress`: upper-bound confidence when tuning or investigating degradation
+- `smoke`: validação padrão de desenvolvedor e CI
+- `load`: ampliar confiança antes de merge ou release
+- `stress`: confiança do limite superior ao tunar ou investigar degradação
 
-## Practical guidance
+## Orientação prática
 
-- keep login and target endpoint orchestration identical to real business flow
-- do not create multiple performance runners for the same endpoint family
-- prefer deterministic reset and small iteration counts for smoke validation
+- manter orquestração de login e endpoint alvo idêntica ao fluxo de negócio real
+- não criar múltiplos runners de performance para a mesma família de endpoints
+- preferir reset determinístico e contagens pequenas de iteração para validação de smoke

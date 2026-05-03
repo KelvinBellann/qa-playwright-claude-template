@@ -1,23 +1,23 @@
 ---
-description: Recommend the smallest regression suite that still protects the changed scope.
+description: Recomendar a menor suite de regressão que ainda protege o escopo alterado.
 disable-model-invocation: true
 argument-hint: "[optional-scope]"
 allowed-tools: Read Glob Grep Bash(git status *) Bash(git diff --name-only *) Bash(git diff --name-only HEAD)
 ---
 
-Build a regression recommendation for: $ARGUMENTS
+Monte uma recomendação de regressão para: $ARGUMENTS
 
-Rules:
+Regras:
 
-- Read current changes first.
-- Use the repository layer model: UI, API, E2E, security, performance.
-- Recommend the minimum executable suite that covers the observed risk.
-- Call out what can stay out of regression and why.
+- Leia as mudanças atuais primeiro.
+- Use o modelo de camadas do repositório: UI, API, E2E, segurança, performance.
+- Recomende a menor suite executável que cobre o risco observado.
+- Indique o que pode ficar fora da regressão e por quê.
 
-Output format:
+Formato de saída:
 
-- Changed scope
-- Recommended suites
-- Order of execution
-- Risk if skipped
-- Optional extended suite
+- Escopo alterado
+- Suites recomendadas
+- Ordem de execução
+- Risco se pulado
+- Suite estendida opcional

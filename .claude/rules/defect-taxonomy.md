@@ -1,13 +1,13 @@
-# Defect Taxonomy
+# Taxonomia de Defeitos
 
-Use this taxonomy when triaging failures, writing bug reports, or proposing new tests.
+Use esta taxonomia ao triar falhas, escrever relatórios de bugs ou propor novos testes.
 
-- Access control: auth bypass, tenant isolation, role leakage
-- Contract drift: response shape, status code, field type, schema mismatch
-- Data integrity: wrong totals, stale state, non-idempotent behavior, precision loss
-- Workflow regression: broken critical path, invalid state transition, missing blocking rule
-- Observability gap: failure with poor evidence, missing trace, weak error message
-- Performance regression: p95 drift, error-rate increase, endpoint saturation
-- Test architecture issue: flaky selector, fixed wait, hidden shared state, noisy fixture
+- Controle de acesso: bypass de auth, isolamento de tenant, vazamento de role
+- Drift de contrato: shape de resposta, status code, tipo de campo, mismatch de schema
+- Integridade de dados: totais errados, estado desatualizado, comportamento não-idempotente, perda de precisão
+- Regressão de fluxo: caminho crítico quebrado, transição de estado inválida, regra de bloqueio ausente
+- Lacuna de observabilidade: falha com evidência fraca, trace ausente, mensagem de erro pobre
+- Regressão de performance: drift de p95, aumento de taxa de erro, saturação de endpoint
+- Problema de arquitetura de testes: seletor frágil, wait fixo, estado compartilhado oculto, fixture ruidosa
 
-When reporting a defect, always name the most relevant category first and keep the report tied to business impact.
+Ao relatar um defeito, sempre nomeie a categoria mais relevante primeiro e mantenha o relatório vinculado ao impacto de negócio.

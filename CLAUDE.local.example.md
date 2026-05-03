@@ -1,11 +1,11 @@
-# Local Claude Notes
+# Notas Locais do Claude
 
-Use this file for machine-specific or personal instructions that should not be committed.
+Use este arquivo para instruções específicas de máquina ou pessoais que não devem ser commitadas.
 
-Suggested contents:
+Conteúdos sugeridos:
 
-- local base URL overrides
-- preferred browsers for ad-hoc debugging
-- personal test accounts or vault references
-- temporary MCP endpoints for experimentation
-- reminders about local proxies, VPN, or sandbox URLs
+- overrides de base URL local
+- browsers preferidos para debugging ad-hoc
+- contas de teste pessoais ou referências de vault
+- endpoints MCP temporários para experimentação
+- lembretes sobre proxies locais, VPN ou URLs de sandbox

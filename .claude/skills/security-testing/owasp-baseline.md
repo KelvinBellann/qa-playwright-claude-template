@@ -1,11 +1,11 @@
-# Security Testing Baseline
+# Baseline de Testes de Segurança
 
-Focus on automated checks that stay stable in CI:
+Foque em verificações automatizadas que permanecem estáveis no CI:
 
-- auth bypass and invalid token handling
-- authorization leakage
-- unsafe input rejection
-- security headers on user-facing routes
-- accidental exposure of local secrets or personal config files
+- bypass de auth e tratamento de token inválido
+- vazamento de autorização
+- rejeição de entrada insegura
+- headers de segurança em rotas voltadas ao usuário
+- exposição acidental de segredos locais ou arquivos de configuração pessoal
 
-Prefer concrete, automatable checks over broad theoretical lists.
+Prefira verificações concretas e automatizáveis a listas teóricas amplas.

@@ -1,73 +1,73 @@
 # QA Playwright Claude Template
 
-This repository is a lean QA automation template for Playwright, OpenAPI contract validation, lightweight performance checks, and Claude-assisted workflows.
+Este repositório é um template enxuto de automação QA para Playwright, validação de contratos OpenAPI, verificações leves de performance e fluxos de trabalho assistidos pelo Claude.
 
-## System under test
+## Sistema sob teste
 
-The included target application is a minimal finance payment flow used to demonstrate:
+A aplicação alvo incluída é um fluxo mínimo de pagamentos financeiros usado para demonstrar:
 
-- browser login and protected navigation
-- payment creation and balance changes
-- OpenAPI-based contract validation
-- auth and security baseline checks
-- deterministic performance smoke validation
+- login no browser e navegação protegida
+- criação de pagamentos e mudanças de saldo
+- validação de contratos baseada em OpenAPI
+- verificações baseline de auth e segurança
+- validação determinística de smoke de performance
 
-The mock target exists only to make the repository runnable without external infrastructure. Teams can replace it with a real system while preserving the testing architecture.
+O mock target existe apenas para tornar o repositório executável sem infraestrutura externa. Times podem substituí-lo por um sistema real preservando a arquitetura de testes.
 
-## QA strategy
+## Estratégia de QA
 
-- UI proves critical screen behavior only.
-- API proves business rules and contracts first.
-- E2E proves only the business journey that crosses layers.
-- Security proves baseline auth, header, and unsafe-input protection.
-- Performance proves threshold health of critical endpoints, not synthetic bulk load by default.
+- UI prova apenas comportamento crítico de tela.
+- API prova regras de negócio e contratos primeiro.
+- E2E prova apenas a jornada de negócio que cruza camadas.
+- Security prova proteção baseline de auth, header e entrada insegura.
+- Performance prova a saúde de threshold de endpoints críticos, não carga sintética em volume por padrão.
 
-This repository is intentionally biased toward fast feedback and low maintenance.
+Este repositório é intencionalmente orientado para feedback rápido e baixa manutenção.
 
-## Acceptance criteria
+## Critérios de aceitação
 
-- Relevant targeted suite is executed.
-- Tests remain independent and deterministic.
-- New behavior is covered at the correct layer, not duplicated across all layers.
-- OpenAPI stays aligned with protected endpoint behavior.
-- README and Claude assets are updated when team workflow changes.
-- No secret or machine-specific value is committed.
+- Suite direcionada relevante é executada.
+- Testes permanecem independentes e determinísticos.
+- Novo comportamento é coberto na camada correta, não duplicado em todas as camadas.
+- OpenAPI permanece alinhado com o comportamento de endpoints protegidos.
+- README e assets do Claude são atualizados quando o fluxo do time muda.
+- Nenhum segredo ou valor específico de máquina é commitado.
 
 ## Toolchain
 
 - Playwright 1.59.1
 - TypeScript
-- Express mock target
-- OpenAPI runtime schema validation
-- Lightweight Node performance runner
+- Mock target Express
+- Validação de schema OpenAPI em tempo de execução
+- Node performance runner leve
 - GitHub Actions
-- Claude Code project memory, rules, commands, skills, agents, and hooks
+- Claude Code: memória de projeto, rules, commands, skills, agents e hooks
 
-## Repository map
+## Mapa do repositório
 
-- `tests/ui`: minimal browser checks
-- `tests/api`: auth, contract, and rule validation
-- `tests/e2e`: core user journeys
-- `tests/security`: auth bypass, headers, unsafe input
-- `tests/performance`: threshold-focused smoke/load/stress checks
-- `src/pages`: browser abstractions
-- `src/services`: domain-facing API layer
-- `src/clients`: low-level HTTP wrapper
-- `src/builders`: deterministic data builders
-- `src/fixtures`: shared test fixtures
-- `src/ai`: concise Claude prompt helpers
-- `config/openapi`: source of truth for response contracts
+- `tests/ui`: verificações mínimas de browser
+- `tests/api`: validação de auth, contrato e regra
+- `tests/e2e`: jornadas críticas de usuário
+- `tests/security`: bypass de auth, headers, entrada insegura
+- `tests/performance`: verificações de smoke/load/stress focadas em threshold
+- `src/pages`: abstrações de browser
+- `src/services`: camada de API orientada ao domínio
+- `src/clients`: wrapper HTTP de baixo nível
+- `src/builders`: builders de dados determinísticos
+- `src/fixtures`: fixtures compartilhadas de teste
+- `src/ai`: helpers de prompt conciso para o Claude
+- `config/openapi`: fonte da verdade para contratos de resposta
 
-## Working agreements
+## Acordos de trabalho
 
-- Follow Gitflow: branch from `develop`, use `feature/*`, merge back into `develop`, and keep `main` release-oriented.
-- Prefer updating existing fixtures, services, and builders over adding duplicate helpers.
-- Do not add fixed waits, `.only`, or brittle selectors.
-- Use `data-testid` or robust semantic locators.
-- If API behavior changes, update `config/openapi/finance-api.json` and the affected API tests together.
-- Keep prompts concise and deterministic. Reuse `src/ai/prompt-builder.ts` instead of embedding large instructions in tests or docs.
+- Seguir Gitflow: criar branch a partir de `develop`, usar `feature/*`, fazer merge de volta para `develop` e manter `main` orientado a releases.
+- Preferir atualizar fixtures, serviços e builders existentes a adicionar helpers duplicados.
+- Não adicionar waits fixos, `.only` ou seletores frágeis.
+- Usar `data-testid` ou locators semânticos robustos.
+- Se o comportamento de API mudar, atualizar `config/openapi/finance-api.json` e os testes de API afetados juntos.
+- Manter prompts concisos e determinísticos. Reutilizar `src/ai/prompt-builder.ts` em vez de embutir instruções longas em testes ou docs.
 
-## Verification commands
+## Comandos de verificação
 
 - `npm run typecheck`
 - `npm run test:api`
@@ -77,18 +77,18 @@ This repository is intentionally biased toward fast feedback and low maintenance
 - `npm run perf:smoke`
 - `npm run ci`
 
-## Claude operating model
+## Modelo de operação do Claude
 
-- `CLAUDE.md`: project memory and non-negotiable working agreements
-- `.claude/rules/`: small, scoped rules loaded only when path-relevant
-- `.claude/commands/`: repeatable slash-command workflows
-- `.claude/skills/`: deeper playbooks for API, security, and performance work
-- `.claude/agents/`: specialized subagents for targeted review or implementation
-- `.claude/hooks/`: lightweight automated quality gates and sync helpers
-- `.mcp.json`: project-scoped MCP config, intentionally controlled by the team
+- `CLAUDE.md`: memória do projeto e acordos de trabalho inegociáveis
+- `.claude/rules/`: regras pequenas e com escopo carregadas apenas quando relevantes por caminho
+- `.claude/commands/`: fluxos de trabalho reutilizáveis via slash commands
+- `.claude/skills/`: playbooks aprofundados para trabalhos de API, segurança e performance
+- `.claude/agents/`: subagentes especializados para revisão ou implementação direcionada
+- `.claude/hooks/`: gates de qualidade automatizados leves e helpers de sincronização
+- `.mcp.json`: config MCP com escopo de projeto, intencionalmente controlado pelo time
 
-## Local-only notes
+## Notas locais
 
-- Copy `CLAUDE.local.example.md` to `CLAUDE.local.md` for personal instructions.
-- Copy `.claude/settings.local.example.json` to `.claude/settings.local.json` for personal overrides.
-- Both files are ignored by git on purpose.
+- Copiar `CLAUDE.local.example.md` para `CLAUDE.local.md` para instruções pessoais.
+- Copiar `.claude/settings.local.example.json` para `.claude/settings.local.json` para overrides pessoais.
+- Ambos os arquivos são ignorados pelo git propositalmente.
