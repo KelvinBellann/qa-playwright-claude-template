@@ -1,10 +1,10 @@
-# API Testing Checklist
+# Checklist de Testes de API
 
-- confirm endpoint ownership and business rule under change
-- update service class if request flow changed
-- update OpenAPI if status code or response body changed
-- add happy-path test only if it proves new behavior
-- add high-value negative path when risk is auth, validation, or contract drift
-- keep payloads minimal
-- validate contract through `ContractService`
-- run `npm run test:api`
+- confirmar ownership do endpoint e regra de negócio em mudança
+- atualizar classe de serviço se o fluxo de requisição mudou
+- atualizar OpenAPI se o status code ou corpo de resposta mudou
+- adicionar teste de caminho feliz apenas se prova novo comportamento
+- adicionar caminho negativo de alto valor quando o risco é auth, validação ou drift de contrato
+- manter payloads mínimos
+- validar contrato via `ContractService`
+- executar `npm run test:api`
